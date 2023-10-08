@@ -4,6 +4,11 @@ parameters:
   type: boolean
   default: false
 
+variables:
+  remoteProjectPath: /home/felix/projects/mqtt_broker
+  sshEndpoint: 71430-33034
+  dockerfile: ./eclipse-mosquitto/Dockerfile
+
 trigger:
   branches:
     include:
@@ -23,4 +28,19 @@ stages:
       displayName: Build Image
       inputs:
         command: build
-        dockerfile: ./eclipse-mosquitto/Dockerfile
+        dockerfile: $(dockerfile)
+- stage: deploy
+  displayName: deploy to Domonik's Server ;-)
+  jobs:
+  - job: copy_files
+    displayName: copy Files to Server
+    steps:
+    - task: CopyFilesOverSSH@0
+      inputs:
+      sshEndpoint: $(sshEndpoint)
+      contents: '**'
+      cleanTargetFolder: true
+      cleanHiddenFilesInTarget: true
+      overwrite: true
+      targetFolder: $(remoteProjectPath)
+      isWindowsOnTarget: false
