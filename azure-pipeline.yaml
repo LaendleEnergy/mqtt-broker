@@ -30,25 +30,25 @@ stages:
         command: build
         dockerfile: $(dockerfile)
 - stage: deploy
-  - ${{ if eq(parameters['deploy'], 'true' ) }}:
-    displayName: deploy to Domonik's Server ;-)
-    jobs:
-    - job: copy_files_and_docker_up
-      displayName: copy Files to Server and start with docker compose
-      steps:
-      - task: CopyFilesOverSSH@0
-        inputs:
-          sshEndpoint: $(sshEndpoint)
-          contents: '**'
-          cleanTargetFolder: true
-          cleanHiddenFilesInTarget: true
-          overwrite: true
-          targetFolder: $(remoteProjectPath)
-          isWindowsOnTarget: false
-          readyTimeout: '20000'
-      - task: SSH@0
-        inputs:
-          sshEndpoint: $(sshEndPoints)
-          runOptions: commands
-          commands: docker compose -f $(remoteProjectPath)/docker-compose.yaml
-          readyTimeout: '20000'
+  condition: eq('${{ parameters.deploy }}', true)
+  displayName: deploy to Domonik's Server ;-)
+  jobs:
+  - job: copy_files_and_docker_up
+    displayName: copy Files to Server and start with docker compose
+    steps:
+    - task: CopyFilesOverSSH@0
+      inputs:
+        sshEndpoint: $(sshEndpoint)
+        contents: '**'
+        cleanTargetFolder: true
+        cleanHiddenFilesInTarget: true
+        overwrite: true
+        targetFolder: $(remoteProjectPath)
+        isWindowsOnTarget: false
+        readyTimeout: '20000'
+    - task: SSH@0
+      inputs:
+        sshEndpoint: $(sshEndPoints)
+        runOptions: commands
+        commands: docker compose -f $(remoteProjectPath)/docker-compose.yaml
+        readyTimeout: '20000'
