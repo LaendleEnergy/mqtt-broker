@@ -1,7 +1,7 @@
 parameters:
 - name: deploy
   displayName: Deloy Buildartifact
-  type: bool
+  type: boolean
   default: false
 
 trigger:
