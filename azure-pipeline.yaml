@@ -17,17 +17,17 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-# - stage: build_test
-#   displayName: Build Image
-#   jobs:
-#   - job: build
-#     displayName: Build
-#     steps:
-#     - task: Docker@2
-#       displayName: Build Image
-#       inputs:
-#         command: build
-#         dockerfile: $(dockerfile)
+- stage: build_test
+  displayName: Build Image
+  jobs:
+  - job: build
+    displayName: Build
+    steps:
+    - task: Docker@2
+      displayName: Build Image
+      inputs:
+        command: build
+        dockerfile: $(dockerfile)
 - stage: deploy
   condition: eq('${{ parameters.deploy }}', true)
   displayName: deploy to Domonik's Server ;-)
@@ -36,6 +36,7 @@ stages:
     displayName: copy Files to Server and start with docker compose
     steps:
     - task: CopyFilesOverSSH@0
+      displayName: Copy Project to Server
       inputs:
         sshEndpoint: '71430-33034_ssh'
         contents: '**'
@@ -46,6 +47,7 @@ stages:
         isWindowsOnTarget: false
         readyTimeout: '20000'
     - task: SSH@0
+      displayName: docker compose up
       inputs:
         sshEndpoint: '71430-33034_ssh'
         runOptions: 'commands'
