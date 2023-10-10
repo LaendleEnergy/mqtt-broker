@@ -49,5 +49,5 @@ stages:
       inputs:
         sshEndpoint: '71430-33034_ssh'
         runOptions: 'commands'
-        commands: 'docker compose -f ${{ variables.remoteProjectPath }}/docker-compose.yaml up -d --force-recreate'
+        commands: 'docker compose -f ${{ variables.remoteProjectPath }}/docker-compose.yaml up -d --force-recreate --ansi never'
         readyTimeout: '20000'
