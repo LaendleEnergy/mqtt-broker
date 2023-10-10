@@ -6,7 +6,8 @@ parameters:
 
 variables:
   remoteProjectPath: /home/felix/projects/mqtt_broker
-  dockerfile: ./eclipse-mosquitto/Dockerfile
+  dockerfiles:
+    - ./eclipse-mosquitto/Dockerfile
 
 trigger:
   branches:
@@ -20,14 +21,15 @@ stages:
 - stage: build_test
   displayName: Build Image
   jobs:
-  - job: build
-    displayName: Build
-    steps:
-    - task: Docker@2
-      displayName: Build Image
-      inputs:
-        command: build
-        dockerfile: $(dockerfile)
+  - ${{ each file in variables.ddockerfiles }}:
+    - job: build
+      displayName: Build
+      steps:
+      - task: Docker@2
+        displayName: Build Image
+        inputs:
+          command: build
+          dockerfile: ${{ file }}
 - stage: deploy
   condition: eq('${{ parameters.deploy }}', true)
   displayName: deploy to Domonik's Server ;-)
