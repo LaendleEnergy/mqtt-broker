@@ -8,7 +8,7 @@ parameters:
   default:
     - name: "Broker"
       file: "./eclipse-mosquitto/Dockerfile"
-    - name "Second"
+    - name: "Second"
       file: "./eclipse-mosquitto/Dockerfile"
 
 variables:
