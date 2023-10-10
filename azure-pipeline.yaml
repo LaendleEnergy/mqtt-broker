@@ -36,6 +36,12 @@ stages:
   - job: copy_files_and_docker_up
     displayName: copy Files to Server and start with docker compose
     steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'laendleenergy'
+        repository: 'laendleenergy'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
     - task: DockerCompose@0
       inputs:
         containerregistrytype: 'Azure Container Registry'
