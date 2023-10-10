@@ -6,7 +6,7 @@ parameters:
 - name: dockerfiles
   type: object
   default:
-    - name: "Broker"
+    - name: "eclipse-mosquitto"
       file: "./eclipse-mosquitto/Dockerfile"
 
 variables:
