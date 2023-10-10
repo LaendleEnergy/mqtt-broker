@@ -18,17 +18,6 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-- stage: build_test
-  displayName: Build Image
-  jobs:
-  - job: build
-    displayName: Build
-    steps:
-    - task: Docker@2
-      displayName: Build Image
-      inputs:
-        command: build
-        dockerfile: $(dockerfile)
 - stage: deploy
   condition: eq('${{ parameters.deploy }}', true)
   displayName: deploy to Domonik's Server ;-)
