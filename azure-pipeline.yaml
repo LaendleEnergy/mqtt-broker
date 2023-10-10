@@ -18,17 +18,17 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-- stage: build_test
-  displayName: Build Image
-  jobs:
-  - job: build
-    displayName: Build
-    steps:
-    - task: Docker@2
-      displayName: Build Image
-      inputs:
-        command: build
-        dockerfile: $(dockerfile)
+# - stage: build_test
+#   displayName: Build Image
+#   jobs:
+#   - job: build
+#     displayName: Build
+#     steps:
+#     - task: Docker@2
+#       displayName: Build Image
+#       inputs:
+#         command: build
+#         dockerfile: $(dockerfile)
 - stage: deploy
   condition: eq('${{ parameters.deploy }}', true)
   displayName: deploy to Domonik's Server ;-)
@@ -52,7 +52,7 @@ stages:
         dockerComposeFile: '**/docker-compose.yaml'
         action: 'Run a Docker Compose command'
         dockerComposeCommand: 'up'
-        arguments: '-d --force-recreate -f $(remoteProjectPath)/docker-compose.yaml'
+        arguments: '-d --force-recreate'
         dockerHostEndpoint: '71430-33034_docker-host'
         currentWorkingDirectory: '$(System.DefaultWorkingDirectory)'
     
