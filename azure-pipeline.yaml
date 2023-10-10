@@ -36,16 +36,6 @@ stages:
   - job: copy_files_and_docker_up
     displayName: copy Files to Server and start with docker compose
     steps:
-    - task: CopyFilesOverSSH@0
-      inputs:
-        sshEndpoint: $(sshEndpoint)
-        contents: '**'
-        cleanTargetFolder: true
-        cleanHiddenFilesInTarget: true
-        overwrite: true
-        targetFolder: $(remoteProjectPath)
-        isWindowsOnTarget: false
-        readyTimeout: '20000'
     - task: DockerCompose@0
       inputs:
         containerregistrytype: 'Azure Container Registry'
