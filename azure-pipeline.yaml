@@ -46,9 +46,13 @@ stages:
         targetFolder: $(remoteProjectPath)
         isWindowsOnTarget: false
         readyTimeout: '20000'
-    - task: SSH@0
+    - task: DockerCompose@0
       inputs:
-        sshEndpoint: $(sshEndPoint)
-        runOptions: commands
-        commands: docker compose -f $(remoteProjectPath)/docker-compose.yaml up -d --force-recreate
-        readyTimeout: '20000'
+        containerregistrytype: 'Azure Container Registry'
+        dockerComposeFile: '**/docker-compose.yml'
+        action: 'Run a Docker Compose command'
+        dockerComposeCommand: 'up'
+        arguments: '-d --force-recreate'
+        dockerHostEndpoint: '71430-33034_docker-host'
+        currentWorkingDirectory: '$(remoteProjectPath)'
+    
