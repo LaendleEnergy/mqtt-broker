@@ -3,11 +3,14 @@ parameters:
   displayName: Deloy Buildartifact
   type: boolean
   default: false
+- name: dockerfiles
+  type: object
+  default:
+    - name: "Broker"
+      file: "./eclipse-mosquitto/Dockerfile"
 
 variables:
   remoteProjectPath: /home/felix/projects/mqtt_broker
-  dockerfiles:
-    - ./eclipse-mosquitto/Dockerfile
 
 trigger:
   branches:
@@ -21,15 +24,15 @@ stages:
 - stage: build_test
   displayName: Build Image
   jobs:
-  - ${{ each file in variables.ddockerfiles }}:
+  - ${{ each file in parameters.dockerfiles }}:
     - job: build
-      displayName: Build
+      displayName: Build $ {{ file.name }}-Image
       steps:
       - task: Docker@2
         displayName: Build Image
         inputs:
           command: build
-          dockerfile: ${{ file }}
+          dockerfile: ${{ file.file }}
 - stage: deploy
   condition: eq('${{ parameters.deploy }}', true)
   displayName: deploy to Domonik's Server ;-)
