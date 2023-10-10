@@ -50,5 +50,5 @@ stages:
       inputs:
         sshEndpoint: $(sshEndPoint)
         runOptions: commands
-        commands: docker compose -f $(remoteProjectPath)/docker-compose.yaml up
+        commands: docker compose -f $(remoteProjectPath)/docker-compose.yaml up -d
         readyTimeout: '20000'
