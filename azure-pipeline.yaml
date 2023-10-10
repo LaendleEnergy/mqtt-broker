@@ -39,10 +39,10 @@ stages:
     - task: DockerCompose@0
       inputs:
         containerregistrytype: 'Azure Container Registry'
-        dockerComposeFile: '**/docker-compose.yml'
+        dockerComposeFile: '**/docker-compose.yaml'
         action: 'Run a Docker Compose command'
         dockerComposeCommand: 'up'
         arguments: '-d --force-recreate'
         dockerHostEndpoint: '71430-33034_docker-host'
-        currentWorkingDirectory: '$(remoteProjectPath)'
+        currentWorkingDirectory: '$(System.DefaultWorkingDirectory)'
     
