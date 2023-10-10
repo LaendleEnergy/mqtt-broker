@@ -54,5 +54,5 @@ stages:
         dockerComposeCommand: 'up'
         arguments: '-d --force-recreate'
         dockerHostEndpoint: '71430-33034_docker-host'
-        currentWorkingDirectory: '$(remoteProjectPath)'
+        currentWorkingDirectory: '$(System.DefaultWorkingDirectory)'
     
