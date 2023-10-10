@@ -52,7 +52,7 @@ stages:
         dockerComposeFile: '**/docker-compose.yaml'
         action: 'Run a Docker Compose command'
         dockerComposeCommand: 'up'
-        arguments: '-d --force-recreate -f $(remoteProjectPath)'
+        arguments: '-d --force-recreate -f $(remoteProjectPath)/docker-compose.yaml'
         dockerHostEndpoint: '71430-33034_docker-host'
         currentWorkingDirectory: '$(System.DefaultWorkingDirectory)'
     
