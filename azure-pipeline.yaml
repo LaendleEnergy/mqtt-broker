@@ -8,6 +8,8 @@ parameters:
   default:
     - name: "Broker"
       file: "./eclipse-mosquitto/Dockerfile"
+    - name "Second"
+      file: "./eclipse-mosquitto/Dockerfile"
 
 variables:
   remoteProjectPath: /home/felix/projects/mqtt_broker
