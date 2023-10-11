@@ -31,7 +31,7 @@ stages:
       - task: Docker@2
         inputs:
           containerRegistry: 'github'
-          repository: 'LaendleEnergy'
+          repository: 'LaendleEnergy/mqtt-broker'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
           tags: '$(Build.BuildId)'
