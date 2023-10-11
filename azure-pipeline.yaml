@@ -25,7 +25,7 @@ stages:
   displayName: Build Image
   jobs:
   - ${{ each file in parameters.dockerfiles }}:
-    - job: build-${{ file.name }}
+    - job: build_${{ file.name }}
       displayName: Build ${{ file.name }}-Image
       steps:
       - task: Docker@2
