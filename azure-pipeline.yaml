@@ -11,6 +11,7 @@ parameters:
 
 variables:
   remoteProjectPath: /home/felix/projects/mqtt_broker
+  containerRegistryName: LaendleEnergy/test
 
 trigger:
   branches:
@@ -31,7 +32,7 @@ stages:
       - task: Docker@2
         inputs:
           containerRegistry: 'github'
-          repository: 'LaendleEnergy/mqtt-broker'
+          repository: '$(containerRegistryName)'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
           tags: '$(Build.BuildId)'
