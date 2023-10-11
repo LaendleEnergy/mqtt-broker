@@ -3,6 +3,10 @@ parameters:
   displayName: Deloy Buildartifact
   type: boolean
   default: false
+- name: imagetag
+  displayName: Image Tag
+  type: object
+  default: latest
 - name: dockerfiles
   type: object
   default:
@@ -11,7 +15,7 @@ parameters:
 
 variables:
   remoteProjectPath: /home/felix/projects/mqtt_broker
-  containerRegistryName: LaendleEnergy/test
+  containerRegistryName: LaendleEnergy
 
 trigger:
   branches:
@@ -26,43 +30,26 @@ stages:
   displayName: Build Image
   jobs:
   - ${{ each file in parameters.dockerfiles }}:
+    - job: build${{ file.name }}
+      displayName: Build ${{ file.name }}-Image
+      steps:
+      - task: Docker@2
+        displayName: Build Image
+        inputs:
+          command: build
+          dockerfile: ${{ file.file }}
+- stage: build_push
+  condition: eq('${{ parameters.deploy }}', true)
+  displayName: puild & push to ghcr.io/LaendleEnergy
+  jobs:
+  - ${{ each file in parameters.dockerfiles }}:
     - job: build_${{ file.name }}
       displayName: Build ${{ file.name }}-Image
       steps:
       - task: Docker@2
         inputs:
           containerRegistry: 'github'
-          repository: '$(containerRegistryName)'
+          repository: '$(containerRegistryName)/${{ file.name }}'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
-          tags: '$(Build.BuildId)'
-      # - task: Docker@2
-      #   displayName: Build Image
-      #   inputs:
-      #     command: build
-      #     dockerfile: ${{ file.file }}
-- stage: deploy
-  condition: eq('${{ parameters.deploy }}', true)
-  displayName: deploy to Domonik's Server ;-)
-  jobs:
-  - job: copy_files_and_docker_up
-    displayName: copy Files to Server and start with docker compose
-    steps:
-    - task: CopyFilesOverSSH@0
-      displayName: Copy Project to Server
-      inputs:
-        sshEndpoint: '71430-33034_ssh'
-        contents: '**'
-        cleanTargetFolder: true
-        cleanHiddenFilesInTarget: true
-        overwrite: true
-        targetFolder: $(remoteProjectPath)
-        isWindowsOnTarget: false
-        readyTimeout: '20000'
-    - task: SSH@0
-      displayName: docker compose up
-      inputs:
-        sshEndpoint: '71430-33034_ssh'
-        runOptions: 'commands'
-        commands: 'docker compose -f ${{ variables.remoteProjectPath }}/docker-compose.yaml --progress quiet up -d --force-recreate'
-        readyTimeout: '20000'
+          tags: '${{ parameters.imagetag }}'
