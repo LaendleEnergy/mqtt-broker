@@ -15,7 +15,7 @@ parameters:
 
 variables:
   remoteProjectPath: /home/felix/projects/mqtt_broker
-  containerRegistryName: mqtt-broker
+  containerRegistryName: LaendleEnergy
 
 trigger:
   branches:
