@@ -1,6 +1,6 @@
 parameters:
-- name: deploy
-  displayName: Deloy Buildartifact
+- name: push
+  displayName: push Image to github/laendleenergy
   type: boolean
   default: false
 - name: imagetag
@@ -39,7 +39,7 @@ stages:
           command: build
           dockerfile: ${{ file.file }}
 - stage: build_push
-  condition: eq('${{ parameters.deploy }}', true)
+  condition: eq('${{ parameters.push }}', true)
   displayName: puild & push to ghcr.io/LaendleEnergy
   jobs:
   - ${{ each file in parameters.dockerfiles }}:
