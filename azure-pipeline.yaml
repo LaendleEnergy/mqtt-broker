@@ -48,7 +48,7 @@ stages:
       steps:
       - task: Docker@2
         inputs:
-          containerRegistry: 'laendleenergy-acr'
+          containerRegistry: 'github'
           repository: '$(containerRegistryName)/${{ file.name }}'
           command: 'buildAndPush'
           Dockerfile: '**/Dockerfile'
