@@ -2,7 +2,15 @@
 
 dieses Projekt stellt einen MQTT Broker für LaendleEnergy bereit.
 
-## Setup
+Der Broker ist deployed auf `45.145.224.10:1884` und akzeptiert Verbindungen
+von Clients, die das richtige Zertifikat verwenden. diese sind abgelegt unter
+`eclipse-mosquitto/certs`.
+
+![mqtt explorer connection](./docs/images/mqtt_explorer_connection.png)
+
+![mqtt explorer certificates](./docs/images/mqtt_explorer_certificates.png)
+
+## Projektsetup
 
 ```
 project-root/
