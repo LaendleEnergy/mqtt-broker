@@ -15,7 +15,9 @@ azure-pipeline.yaml
 ```
 
 Notwendige Komponenten werden in Ordnern, gemeinsam mit einem `Dockerfile`
-und ev. notwendigen Configfiles abgelegt.
+und ev. notwendigen Configfiles abgelegt. Dieses Projekt besteht nur aus einer
+Komponente `eclipse-mosquitto`. Die Azure Pipeline baut für jede Komponente
+ein Dockerimage und pusht es auf `ghcr.io/laendleenergy/<component_name>:<tag>`.
 
 ## Deployment produktiv
 
@@ -27,9 +29,28 @@ als Parameter angegeben.
 
 ## Dev Lokal
 
+Lokal kann das Projekt über das Deploymentprojekt gestartet werden. Dafür ist
+es notwendig, dass dieses Projekt und das Deploymentprojekt im selben
+Verzeichnis abgelegt sind:
+
 ```
+mqtt-broker/
+├─ eclipse-mosquitto/
+│  ├─ Dockerfile
+mqtt-broker.deplyoment
+├─ docker-compose.yaml
+```
+
+Im Deploymentprojekt ist ein Composefile abgelegt, das in zwei Versionen in
+jeweils einem Branch vorhanden sind. Für das produktive Deployment wird
+`master`, verwendet, für das lokale Development der Branch `local`. Sind beide
+Projekte, wie oben gezeigt, im selben Verzeichnis abgelegt, kann das
+Composefile aus `local` das Dockerfile aus diesem Projekt verwenden, um das
+Projekt im aktuellen Entwicklungsstand zu bauen und zu starten:
+
+```
+cd ..
 git pull https://WattWise@dev.azure.com/WattWise/mqtt-broker/_git/mqtt-broker.deployment
-cd mqtt-broker.deployment
-docker login ghcr.io
+git checkout local
 docker compose up
 ```
